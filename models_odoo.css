@@ -1,1 +1,110 @@
 
+/* RESET */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* BODY */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f5f4f0;
+  color: #1a1a18;
+  padding: 2.5rem 1.5rem;
+  line-height: 1.6;
+}
+
+/* LAYOUT */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* TITULOS */
+h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: .3rem;
+}
+
+.subtitle {
+  font-size: .95rem;
+  color: #6b6a64;
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  font-size: .72rem;
+  font-weight: 600;
+  color: #888780;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin: 2rem 0 .75rem;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 10px;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  border: 1px solid #e2e0d8;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card-desc {
+  font-size: 12.5px;
+  color: #6b6a64;
+  margin-bottom: 9px;
+}
+
+/* BADGES */
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 4px;
+}
+
+.badge-purple { background: #EEEDFE; color: #3C3489; }
+.badge-teal   { background: #E1F5EE; color: #085041; }
+.badge-amber  { background: #FAEEDA; color: #633806; }
+.badge-coral  { background: #FAECE7; color: #712B13; }
+.badge-blue   { background: #E6F1FB; color: #0C447C; }
+
+/* CODE */
+pre {
+  background: #f1efe8;
+  border: 1px solid #e2e0d8;
+  border-radius: 6px;
+  padding: 8px 11px;
+  font-family: 'Consolas', monospace;
+  font-size: 11.5px;
+  overflow-x: auto;
+}
+
+/* FOOTER */
+.footer {
+  font-size: 11.5px;
+  color: #999891;
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e0d8;
+}
