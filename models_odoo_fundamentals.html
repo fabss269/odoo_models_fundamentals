@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odoo ORM — Referencia de tipos de datos</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f4f0;
+    color: #1a1a18;
+    padding: 2.5rem 1.5rem;
+    line-height: 1.6;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+
+  h1 { font-size: 1.6rem; font-weight: 600; margin-bottom: .3rem; color: #1a1a18; }
+  .subtitle { font-size: .95rem; color: #6b6a64; margin-bottom: 2.5rem; }
+
+  .section-title {
+    font-size: .72rem; font-weight: 600; color: #888780;
+    text-transform: uppercase; letter-spacing: .07em;
+    margin: 2rem 0 .75rem;
+  }
+
+  /* ── Tarjetas de campos ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #e2e0d8;
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .badge {
+    font-size: 11px; font-weight: 600;
+    padding: 2px 9px; border-radius: 4px;
+    white-space: nowrap;
+  }
+  .badge-purple { background: #EEEDFE; color: #3C3489; }
+  .badge-teal   { background: #E1F5EE; color: #085041; }
+  .badge-amber  { background: #FAEEDA; color: #633806; }
+  .badge-coral  { background: #FAECE7; color: #712B13; }
+  .badge-blue   { background: #E6F1FB; color: #0C447C; }
+
+  .card-name { font-size: 14px; font-weight: 600; color: #1a1a18; }
+  .card-desc { font-size: 12.5px; color: #6b6a64; margin-bottom: 9px; }
+
+  pre {
+    background: #f1efe8;
+    border: 1px solid #e2e0d8;
+    border-radius: 6px;
+    padding: 8px 11px;
+    font-family: 'SFMono-Regular', 'Consolas', 'Menlo', monospace;
+    font-size: 11.5px;
+    line-height: 1.65;
+    overflow-x: auto;
+    color: #1a1a18;
+    white-space: pre;
+  }
+  .kw  { color: #534AB7; font-weight: 500; }
+  .str { color: #0F6E56; }
+  .cm  { color: #999891; font-style: italic; }
+
+  /* ── Relacionales ── */
+  .rel-section {
+    background: #f8f7f3;
+    border: 1px solid #e2e0d8;
+    border-radius: 12px;
+    padding: 4px 16px 4px;
+    margin-bottom: 1.5rem;
+  }
+  .rel-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e0d8;
+  }
+  .rel-row:last-child { border-bottom: none; }
+  .rel-name {
+    font-family: 'SFMono-Regular', 'Consolas', monospace;
+    font-size: 13px; font-weight: 600; color: #1a1a18;
+    padding-top: 2px;
+  }
+  .rel-desc { font-size: 12.5px; color: #6b6a64; margin-bottom: 5px; }
+  .rel-example {
+    font-family: 'SFMono-Regular', 'Consolas', monospace;
+    font-size: 11px; color: #888780;
+  }
+
+  /* ── Opciones ── */
+  .opt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+  .opt-card {
+    background: #fff;
+    border: 1px solid #e2e0d8;
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .opt-name {
+    font-family: 'SFMono-Regular', 'Consolas', monospace;
+    font-size: 12px; font-weight: 600; color: #534AB7;
+    margin-bottom: 3px;
+  }
+  .opt-desc { font-size: 11.5px; color: #6b6a64; line-height: 1.4; }
+
+  /* ── Campos automáticos ── */
+  .auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+  .auto-card {
+    background: #fff;
+    border: 1px solid #e2e0d8;
+    border-left: 3px solid #9FE1CB;
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .auto-name {
+    font-family: 'SFMono-Regular', 'Consolas', monospace;
+    font-size: 12px; font-weight: 600; color: #085041;
+    margin-bottom: 3px;
+  }
+  .auto-desc { font-size: 11.5px; color: #6b6a64; }
+
+  /* ── Estructura mínima ── */
+  .struct-card {
+    background: #fff;
+    border: 1px solid #e2e0d8;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 1.5rem;
+  }
+  .struct-card pre { background: #f8f7f3; border: none; padding: 0; }
+
+  /* ── Tu tabla ── */
+  .highlight-card {
+    background: #EEEDFE;
+    border: 1px solid #AFA9EC;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 1.5rem;
+  }
+  .highlight-card pre { background: #e8e7fc; border: 1px solid #CEC BF6; }
+  .hl-title { font-size: 13px; font-weight: 600; color: #3C3489; margin-bottom: 8px; }
+
+  /* ── Footer ── */
+  .footer { font-size: 11.5px; color: #999891; margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid #e2e0d8; }
+  a { color: #534AB7; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Odoo ORM — Referencia de tipos de datos</h1>
+  <p class="subtitle">Cómo se definen campos, relaciones y opciones en un modelo de Odoo.</p>
+
+  <!-- ══ TIPOS BÁSICOS ══ -->
+  <div class="section-title">Tipos de datos básicos (fields)</div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-purple">Char</span>
+        <span class="card-name">Texto corto</span>
+      </div>
+      <div class="card-desc">Cadena de texto. Equivale a VARCHAR en SQL.</div>
+      <pre><span class="kw">name</span> = fields.Char(
+    <span class="str">string=</span><span class="str">'Nombre'</span>, required=True
+)</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-purple">Text</span>
+        <span class="card-name">Texto largo</span>
+      </div>
+      <div class="card-desc">Texto sin límite. Equivale a TEXT en SQL.</div>
+      <pre><span class="kw">descripcion</span> = fields.Text(
+    <span class="str">string=</span><span class="str">'Descripción'</span>
+)</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-teal">Integer</span>
+        <span class="card-name">Número entero</span>
+      </div>
+      <div class="card-desc">Número entero sin decimales.</div>
+      <pre><span class="kw">cantidad</span> = fields.Integer(
+    <span class="str">string=</span><span class="str">'Cantidad'</span>, default=0
+)</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-teal">Float</span>
+        <span class="card-name">Número decimal</span>
+      </div>
+      <div class="card-desc">Decimal. Con <code>digits</code> controlas la precisión.</div>
+      <pre><span class="kw">precio</span> = fields.Float(
+    <span class="str">string=</span><span class="str">'Precio'</span>, digits=(10, 2)
+)</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-amber">Boolean</span>
+        <span class="card-name">Verdadero / Falso</span>
+      </div>
+      <div class="card-desc">Checkbox en la vista. Default es False.</div>
+      <pre><span class="kw">activo</span> = fields.Boolean(
+    <span class="str">string=</span><span class="str">'Activo'</span>, default=True
+)</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-amber">Selection</span>
+        <span class="card-name">Lista de opciones</span>
+      </div>
+      <div class="card-desc">Dropdown con valores fijos.</div>
+      <pre><span class="kw">estado</span> = fields.Selection([
+    (<span class="str">'borrador'</span>, <span class="str">'Borrador'</span>),
+    (<span class="str">'aprobado'</span>, <span class="str">'Aprobado'</span>),
+], default=<span class="str">'borrador'</span>)</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-coral">Date</span>
+        <span class="card-name">Fecha</span>
+      </div>
+      <div class="card-desc">Solo fecha, sin hora. Usa <code>fields.Date.today</code> como default.</div>
+      <pre><span class="kw">fecha</span> = fields.Date(
+    <span class="str">string=</span><span class="str">'Fecha'</span>,
+    default=fields.Date.today
+)</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-coral">Datetime</span>
+        <span class="card-name">Fecha + Hora</span>
+      </div>
+      <div class="card-desc">Fecha y hora completa. Se almacena en UTC.</div>
+      <pre><span class="kw">created_at</span> = fields.Datetime(
+    default=fields.Datetime.now
+)</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-blue">Binary</span>
+        <span class="card-name">Archivo / Imagen</span>
+      </div>
+      <div class="card-desc">Datos binarios. Útil para adjuntos o imágenes.</div>
+      <pre><span class="kw">imagen</span> = fields.Binary(
+    <span class="str">string=</span><span class="str">'Imagen'</span>
+)
+<span class="kw">imagen_name</span> = fields.Char()</pre>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-blue">Html</span>
+        <span class="card-name">Texto enriquecido</span>
+      </div>
+      <div class="card-desc">Texto con editor WYSIWYG (negritas, listas, etc.).</div>
+      <pre><span class="kw">notas</span> = fields.Html(
+    <span class="str">string=</span><span class="str">'Notas'</span>
+)</pre>
+    </div>
+
+  </div>
+
+  <!-- ══ RELACIONALES ══ -->
+  <div class="section-title">Campos relacionales</div>
+  <div class="rel-section">
+
+    <div class="rel-row">
+      <div class="rel-name">Many2one</div>
+      <div>
+        <div class="rel-desc">Muchos registros apuntan a <strong>uno</strong> solo. El más común. Es la FK real en la tabla.</div>
+        <div class="rel-example">
+          <span class="kw">partner_id</span> = fields.Many2one(<span class="str">'res.partner'</span>, string=<span class="str">'Contacto'</span>)
+        </div>
+      </div>
+    </div>
+
+    <div class="rel-row">
+      <div class="rel-name">One2many</div>
+      <div>
+        <div class="rel-desc">Uno tiene <strong>muchos</strong>. Inverso del Many2one. No crea columna en BD, es virtual.</div>
+        <div class="rel-example">
+          <span class="kw">formularios</span> = fields.One2many(<span class="str">'modulo.formulario'</span>, <span class="str">'partner_id'</span>)
+        </div>
+      </div>
+    </div>
+
+    <div class="rel-row">
+      <div class="rel-name">Many2many</div>
+      <div>
+        <div class="rel-desc">Muchos a muchos. Crea tabla intermedia automáticamente.</div>
+        <div class="rel-example">
+          <span class="kw">etiquetas</span> = fields.Many2many(<span class="str">'res.partner.category'</span>)
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ OPCIONES ══ -->
+  <div class="section-title">Opciones comunes en cualquier field</div>
+  <div class="opt-grid">
+    <div class="opt-card"><div class="opt-name">string=</div><div class="opt-desc">Etiqueta visible en la UI</div></div>
+    <div class="opt-card"><div class="opt-name">required=True</div><div class="opt-desc">Campo obligatorio (NOT NULL)</div></div>
+    <div class="opt-card"><div class="opt-name">default=</div><div class="opt-desc">Valor por defecto al crear</div></div>
+    <div class="opt-card"><div class="opt-name">readonly=True</div><div class="opt-desc">Solo lectura en la vista</div></div>
+    <div class="opt-card"><div class="opt-name">help=</div><div class="opt-desc">Tooltip informativo</div></div>
+    <div class="opt-card"><div class="opt-name">index=True</div><div class="opt-desc">Crea índice en BD (mejora búsquedas)</div></div>
+    <div class="opt-card"><div class="opt-name">copy=False</div><div class="opt-desc">No se copia al duplicar registro</div></div>
+    <div class="opt-card"><div class="opt-name">tracking=True</div><div class="opt-desc">Registra cambios en el chatter</div></div>
+    <div class="opt-card"><div class="opt-name">compute=</div><div class="opt-desc">Calculado con función Python</div></div>
+  </div>
+
+  <!-- ══ CAMPOS AUTOMÁTICOS ══ -->
+  <div class="section-title">Campos que Odoo agrega automáticamente (no los declares)</div>
+  <div class="auto-grid">
+    <div class="auto-card"><div class="auto-name">id</div><div class="auto-desc">Primary key autoincremental</div></div>
+    <div class="auto-card"><div class="auto-name">create_date</div><div class="auto-desc">Fecha de creación del registro</div></div>
+    <div class="auto-card"><div class="auto-name">write_date</div><div class="auto-desc">Fecha de última modificación</div></div>
+    <div class="auto-card"><div class="auto-name">create_uid</div><div class="auto-desc">Usuario que creó el registro</div></div>
+    <div class="auto-card"><div class="auto-name">write_uid</div><div class="auto-desc">Usuario que modificó por último</div></div>
+  </div>
+
+  <!-- ══ ESTRUCTURA MÍNIMA ══ -->
+  <div class="section-title">Estructura mínima de un modelo</div>
+  <div class="struct-card">
+    <pre><span class="kw">from</span> odoo <span class="kw">import</span> models, fields
+
+<span class="kw">class</span> MiFormulario(models.Model):
+    _name        = <span class="str">'mi_modulo.formulario'</span>  <span class="cm"># nombre de la tabla en BD</span>
+    _description = <span class="str">'Formulario'</span>
+
+    <span class="cm"># Odoo agrega id, create_date, write_date, create_uid, write_uid automáticamente</span>
+    <span class="kw">name</span>       = fields.Char(<span class="str">string=</span><span class="str">'Título'</span>, required=True)
+    <span class="kw">partner_id</span> = fields.Many2one(
+        <span class="str">'res.partner'</span>,
+        string=<span class="str">'Contacto'</span>,
+        required=True,
+    )</pre>
+  </div>
+
+  <!-- ══ TU TABLA ══ -->
+  <div class="section-title">Tu tabla formulario (punto de partida)</div>
+  <div class="highlight-card">
+    <div class="hl-title">Un contacto (res.partner) → muchos formularios — relación Many2one</div>
+    <pre><span class="kw">from</span> odoo <span class="kw">import</span> models, fields
+
+<span class="kw">class</span> Formulario(models.Model):
+    _name        = <span class="str">'nombre_modulo.formulario'</span>
+    _description = <span class="str">'Formulario'</span>
+
+    <span class="kw">name</span>       = fields.Char(<span class="str">string=</span><span class="str">'Nombre'</span>, required=True)
+    <span class="kw">partner_id</span> = fields.Many2one(
+        <span class="str">'res.partner'</span>,
+        string=<span class="str">'Contacto'</span>,
+        required=True,
+    )
+
+    <span class="cm"># Cuando te confirmen los campos, los agregas aquí:</span>
+    <span class="cm"># fecha      = fields.Date(string='Fecha')</span>
+    <span class="cm"># estado     = fields.Selection([...], default='borrador')</span>
+    <span class="cm"># notas      = fields.Text(string='Notas')</span></pre>
+  </div>
+
+  <!-- ══ CONVENCIÓN NOMBRES ══ -->
+  <div class="section-title">Convención de nombres</div>
+  <div class="struct-card">
+    <pre><span class="cm"># _name usa puntos → Odoo los convierte a guiones bajos en PostgreSQL</span>
+<span class="str">'mi_modulo.formulario'</span>  →  tabla <span class="str">mi_modulo_formulario</span>  en la BD
+<span class="str">'estate.property'</span>       →  tabla <span class="str">estate_property</span>        en la BD
+
+<span class="cm"># Convención de campos relacionales: modelo + _id</span>
+<span class="kw">partner_id</span>   <span class="cm"># → Many2one a res.partner</span>
+<span class="kw">user_id</span>      <span class="cm"># → Many2one a res.users</span>
+<span class="kw">company_id</span>   <span class="cm"># → Many2one a res.company</span></pre>
+  </div>
+
+  <div class="footer">
+    Referencia basada en Odoo 18 — 
+    <a href="https://www.odoo.com/documentation/18.0/developer/reference/backend/orm.html" target="_blank">
+      Documentación oficial ORM
+    </a>
+  </div>
+
+</div>
+</body>
+</html>
