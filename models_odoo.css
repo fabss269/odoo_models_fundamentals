@@ -1,110 +1,156 @@
-
-/* RESET */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* BODY */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #f5f4f0;
-  color: #1a1a18;
-  padding: 2.5rem 1.5rem;
-  line-height: 1.6;
-}
-
-/* LAYOUT */
-.container {
-  max-width: 860px;
-  margin: 0 auto;
-}
-
-/* TITULOS */
-h1 {
-  font-size: 1.6rem;
-  font-weight: 600;
-  margin-bottom: .3rem;
-}
-
-.subtitle {
-  font-size: .95rem;
-  color: #6b6a64;
-  margin-bottom: 2.5rem;
-}
-
-.section-title {
-  font-size: .72rem;
-  font-weight: 600;
-  color: #888780;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  margin: 2rem 0 .75rem;
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 10px;
-}
-
-/* CARD */
-.card {
-  background: #fff;
-  border: 1px solid #e2e0d8;
-  border-radius: 12px;
-  padding: 14px 16px;
-}
-
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.card-name {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.card-desc {
-  font-size: 12.5px;
-  color: #6b6a64;
-  margin-bottom: 9px;
-}
-
-/* BADGES */
-.badge {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 9px;
-  border-radius: 4px;
-}
-
-.badge-purple { background: #EEEDFE; color: #3C3489; }
-.badge-teal   { background: #E1F5EE; color: #085041; }
-.badge-amber  { background: #FAEEDA; color: #633806; }
-.badge-coral  { background: #FAECE7; color: #712B13; }
-.badge-blue   { background: #E6F1FB; color: #0C447C; }
-
-/* CODE */
-pre {
-  background: #f1efe8;
-  border: 1px solid #e2e0d8;
-  border-radius: 6px;
-  padding: 8px 11px;
-  font-family: 'Consolas', monospace;
-  font-size: 11.5px;
-  overflow-x: auto;
-}
-
-/* FOOTER */
-.footer {
-  font-size: 11.5px;
-  color: #999891;
-  margin-top: 2.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e2e0d8;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f4f0;
+    color: #1a1a18;
+    padding: 2.5rem 1.5rem;
+    line-height: 1.6;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+ 
+  h1 { font-size: 1.6rem; font-weight: 600; margin-bottom: .3rem; color: #1a1a18; }
+  .subtitle { font-size: .95rem; color: #6b6a64; margin-bottom: 2.5rem; }
+ 
+  .section-title {
+    font-size: .72rem; font-weight: 600; color: #888780;
+    text-transform: uppercase; letter-spacing: .07em;
+    margin: 2rem 0 .75rem;
+  }
+ 
+  /* ── Tarjetas de campos ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #e2e0d8;
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .badge {
+    font-size: 11px; font-weight: 600;
+    padding: 2px 9px; border-radius: 4px;
+    white-space: nowrap;
+  }
+  .badge-purple { background: #EEEDFE; color: #3C3489; }
+  .badge-teal   { background: #E1F5EE; color: #085041; }
+  .badge-amber  { background: #FAEEDA; color: #633806; }
+  .badge-coral  { background: #FAECE7; color: #712B13; }
+  .badge-blue   { background: #E6F1FB; color: #0C447C; }
+ 
+  .card-name { font-size: 14px; font-weight: 600; color: #1a1a18; }
+  .card-desc { font-size: 12.5px; color: #6b6a64; margin-bottom: 9px; }
+ 
+  pre {
+    background: #f1efe8;
+    border: 1px solid #e2e0d8;
+    border-radius: 6px;
+    padding: 8px 11px;
+    font-family: 'SFMono-Regular', 'Consolas', 'Menlo', monospace;
+    font-size: 11.5px;
+    line-height: 1.65;
+    overflow-x: auto;
+    color: #1a1a18;
+    white-space: pre;
+  }
+  .kw  { color: #534AB7; font-weight: 500; }
+  .str { color: #0F6E56; }
+  .cm  { color: #999891; font-style: italic; }
+ 
+  /* ── Relacionales ── */
+  .rel-section {
+    background: #f8f7f3;
+    border: 1px solid #e2e0d8;
+    border-radius: 12px;
+    padding: 4px 16px 4px;
+    margin-bottom: 1.5rem;
+  }
+  .rel-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e0d8;
+  }
+  .rel-row:last-child { border-bottom: none; }
+  .rel-name {
+    font-family: 'SFMono-Regular', 'Consolas', monospace;
+    font-size: 13px; font-weight: 600; color: #1a1a18;
+    padding-top: 2px;
+  }
+  .rel-desc { font-size: 12.5px; color: #6b6a64; margin-bottom: 5px; }
+  .rel-example {
+    font-family: 'SFMono-Regular', 'Consolas', monospace;
+    font-size: 11px; color: #888780;
+  }
+ 
+  /* ── Opciones ── */
+  .opt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+  .opt-card {
+    background: #fff;
+    border: 1px solid #e2e0d8;
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .opt-name {
+    font-family: 'SFMono-Regular', 'Consolas', monospace;
+    font-size: 12px; font-weight: 600; color: #534AB7;
+    margin-bottom: 3px;
+  }
+  .opt-desc { font-size: 11.5px; color: #6b6a64; line-height: 1.4; }
+ 
+  /* ── Campos automáticos ── */
+  .auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 8px;
+    margin-bottom: 1.5rem;
+  }
+  .auto-card {
+    background: #fff;
+    border: 1px solid #e2e0d8;
+    border-left: 3px solid #9FE1CB;
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .auto-name {
+    font-family: 'SFMono-Regular', 'Consolas', monospace;
+    font-size: 12px; font-weight: 600; color: #085041;
+    margin-bottom: 3px;
+  }
+  .auto-desc { font-size: 11.5px; color: #6b6a64; }
+ 
+  /* ── Estructura mínima ── */
+  .struct-card {
+    background: #fff;
+    border: 1px solid #e2e0d8;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 1.5rem;
+  }
+  .struct-card pre { background: #f8f7f3; border: none; padding: 0; }
+ 
+  /* ── Tu tabla ── */
+  .highlight-card {
+    background: #EEEDFE;
+    border: 1px solid #AFA9EC;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 1.5rem;
+  }
+  .highlight-card pre { background: #e8e7fc; border: 1px solid #CEC BF6; }
+  .hl-title { font-size: 13px; font-weight: 600; color: #3C3489; margin-bottom: 8px; }
+ 
+  /* ── Footer ── */
+  .footer { font-size: 11.5px; color: #999891; margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid #e2e0d8; }
+  a { color: #534AB7; }
